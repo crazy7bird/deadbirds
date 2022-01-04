@@ -92,29 +92,24 @@ function optimum_restack_earn_seeker(){
   
 }
 
-setInterval(function() {
+const events = document.getElementsByName("toCompute");
 
-  var l_initialCRO =  document.getElementById("initialCRO").value;
-  var l_AP =  document.getElementById("AP").value;
-  var l_validcom =  document.getElementById("validcom").value;
-  var l_netFee =  document.getElementById("netFee").value;
+for(var i = 0; i < events.length ; i++)
+{
+  events[i].addEventListener('change', toDo);
+}
 
-  if((l_initialCRO != gl_initialCRO) ||(l_AP != gl_AP) || (l_validcom != gl_validcom) || (l_netFee != gl_netFee) )
-  {
+function toDo(){
+
     //Parsefloat to be sure having a number
-    gl_initialCRO = parseFloat(l_initialCRO);
-    gl_AP = parseFloat(l_AP);
-    gl_validcom = parseFloat(l_validcom);
-    gl_netFee = parseFloat(l_netFee);
+    gl_initialCRO = parseFloat(document.getElementById("initialCRO").value);
+    gl_AP = parseFloat(document.getElementById("AP").value);
+    gl_validcom = parseFloat(document.getElementById("validcom").value);
+    gl_netFee = parseFloat(document.getElementById("netFee").value);
 
     gain_doing_nothing();
     optimum_restack_hours_seeker();
-
     optimum_restack_earn_seeker();
-  }
 
-
-}, 1500);
-
-
-
+}
+toDo(); //Compute one first time
