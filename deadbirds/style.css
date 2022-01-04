@@ -1,0 +1,17 @@
+body {
+  background-color: rgb(33, 33, 33);
+  color : aquamarine;    
+}
+
+imp {
+  color : gold;
+}
+
+.row {
+  border: thin solid rgb(138, 44, 226);
+  border-radius: 10px;
+  vertical-align: middle;
+  text-align: center;
+  padding: 10px;
+  margin : 10px;
+}
