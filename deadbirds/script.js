@@ -49,14 +49,25 @@ function gain_restack_every_earn(earnTrig){
   var totalGain = 0;
   var validatorPart = 1 - (gl_validcom /100);
 
-  for(let hour = 0; hour <hoursInYear;)
+  var isProfitable = true;
+
+  for(let hour = 0; (hour <hoursInYear) && (isProfitable == true);)
   {
     let oneHourGain = (gl_initialCRO + totalGain) * oneHourPcent;
     let hoursForTrig = earnTrig / oneHourGain;  
     hour += hoursForTrig;
     if ( hour <= hoursInYear )
     {
-      totalGain += (oneHourGain * hoursForTrig * validatorPart) - gl_netFee;
+      let gain = (oneHourGain * hoursForTrig * validatorPart) - gl_netFee;
+      if(gain > 0)
+      {
+        totalGain += gain;
+      }
+      else
+      {
+        isProfitable = false;
+      }
+
     }
     else //l’heure dépasse un peu 
     {
@@ -71,15 +82,12 @@ function gain_restack_every_earn(earnTrig){
 }
 
 function optimum_restack_earn_seeker(){
-  var earnTrig = 0.1;
+  var earnTrig = 0.02;
   var lastgain = gain_restack_every_earn(0.01);
-  for(;earnTrig <= 1;earnTrig+=0.01)
+  for(;earnTrig <= 10;earnTrig+=0.01)
   {
-   
     var gain = gain_restack_every_earn(earnTrig);
-    
-    //console.log("( "+ earnTrig.toFixed(2) +" )  : "+ gain.toFixed(2));
-    if( lastgain >= gain)
+    if( lastgain > gain)
     {
       earnTrig-=0.01
       break;
@@ -110,6 +118,5 @@ function toDo(){
     gain_doing_nothing();
     optimum_restack_hours_seeker();
     optimum_restack_earn_seeker();
-
 }
-toDo(); //Compute one first time
+toDo(); //Compute one time at startUp
